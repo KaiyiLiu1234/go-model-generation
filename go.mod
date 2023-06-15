@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/dmitryikh/leaves v0.0.0-20210121075304-82771f84c313 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	gonum.org/v1/gonum v0.13.0 // indirect
 )
