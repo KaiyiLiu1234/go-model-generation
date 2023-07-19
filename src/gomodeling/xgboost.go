@@ -1,4 +1,4 @@
-package models
+package gomodeling
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 )
 
 // xgboost models are incapable of incremental training. It can only use pretrained xgboost models.
-
+// dmitrykh/leaves is currently broken
 type XGBoostTrainingType int64
 
 const (
@@ -46,8 +46,8 @@ func (xgb *XGBoostRegressor) NewXGBoostRegressor(xgbModelFilepath string, ModelF
 		return err
 	}
 	xgb.LoadedXGBRegressor = model
-	xgb.ModelFeatures = ModelFeatures
-	xgb.ModelLabel = ModelLabel
+	//xgb.ModelFeatures = ModelFeatures
+	//xgb.ModelLabel = ModelLabel
 	xgb.NodelLevel = nodeLevel
 	xgb.TrainingType = trainingType
 	return nil

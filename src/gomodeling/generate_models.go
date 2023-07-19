@@ -1,4 +1,4 @@
-package models
+package gomodeling
 
 import (
 	"errors"
@@ -124,9 +124,13 @@ func GenerateInitializeLRBPFIRQModel(localRefinedDataFilepath string, modelFilep
 	return newLRModel
 }
 
-func RetrieveIRQBPFXGBoostModel(modelFilepath string, nodeLevel bool, trainingType XGBoostTrainingType) XGBoostRegressor {
-	// Retrieve Model
-	xgbModel := XGBoostRegressor{}
-	xgbModel.NewXGBoostRegressor(modelFilepath, irqFeatures, totalPackagePower, nodeLevel, trainingType)
-	return xgbModel
-}
+// func RetrieveIRQBPFXGBoostModel(modelFilepath string, nodeLevel bool, trainingType XGBoostTrainingType) XGBoostRegressor {
+// 	// Retrieve Model
+// }
+
+/*func PredictOnTFKeras() {
+	test := TensorflowKerasLinearRegressor{}
+	test.LoadTFKerasLinearRegressor("models/saved_models/LR/AbsComponentModelWeight/core", irqFeatures, totalPackagePower)
+	predictions := []float64{1, 2, 3, 4}
+	test.PredictTFKerasLinearRegressor(predictions)
+}*/

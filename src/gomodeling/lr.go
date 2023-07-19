@@ -1,4 +1,4 @@
-package models
+package gomodeling
 
 import (
 	"encoding/json"

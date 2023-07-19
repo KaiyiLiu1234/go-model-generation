@@ -1,4 +1,4 @@
-package models
+package gomodeling
 
 import (
 	"bufio"
@@ -18,6 +18,7 @@ import (
 // Note the full kepler metric cannot be used here to maintain consistency (follow model server)
 var irqRelatedMetrics = []string{"bpf_block_irq", "bpf_cpu_time_us", "bpf_net_rx_irq", "bpf_net_tx_irq"}
 var irqPowerLabel = []string{"total_package_power"}
+var coreMetrics = []string{"core_cpu_cycles", "core_cpu_instr", "core_cpu_time", "core_cpu_architecture"}
 
 type DataLocation int64
 
@@ -29,13 +30,15 @@ const (
 type ModelFeatureType string
 
 const (
-	irqFeatures ModelFeatureType = "irqFeatures"
+	irqFeatures  ModelFeatureType = "irqFeatures"
+	coreFeatures ModelFeatureType = "coreFeatures"
 )
 
 type ModelLabelType string
 
 const (
-	totalPackagePower ModelLabelType = "totalPackagePower"
+	totalPackagePower         ModelLabelType = "totalPackagePower"
+	coreRegressionLayerEnergy ModelLabelType = "coreRegressionLayerEnergy"
 )
 
 func sort_model_names(features []string) []string {
