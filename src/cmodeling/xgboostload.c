@@ -1,9 +1,9 @@
+#include "xgboostload.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <xgboost/c_api.h>
 #include <string.h>
 
-const int num_of_features = 4;
 
 typedef struct XGBoostRegressor{
 	BoosterHandle XGBBooster;
@@ -27,7 +27,7 @@ int LoadXGBoostRegressor (XGBoostRegressor *new_regressor_data, char xgb_model_f
 
 }
 
-float PredictXGBoostRegressor (XGBoostRegressor complete_regressor_data, float features[1][num_of_features]) {
+float PredictXGBoostRegressor (XGBoostRegressor complete_regressor_data, int num_of_features, float features[1][num_of_features]) {
 
     DMatrixHandle dmatrix;
     int ret = XGDMatrixCreateFromMat((float *)features, 1, num_of_features, 0, &dmatrix);
@@ -60,16 +60,32 @@ int FreeXGBoostRegressor( XGBoostRegressor complete_regressor_data) {
 	return 0;
 }
 
+float LoadExistingXGBModelandPredict(char xgb_model_filepath[], int num_of_features, float features[1][num_of_features]) {
+    struct XGBoostRegressor xgbRegressor;
+	int ret = LoadXGBoostRegressor(&xgbRegressor, xgb_model_filepath);
+    if (ret != 0) {
+        return -1;
+    }
+	float predicted_result = PredictXGBoostRegressor(xgbRegressor,  num_of_features, features);
+    FreeXGBoostRegressor(xgbRegressor);	
+    return predicted_result;
+}
+
+/*
 int main(){
 	struct XGBoostRegressor myRegressor;
 	int ret = LoadXGBoostRegressor(&myRegressor, "XGBoost/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation_package/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation.model");
 	float features_one[1][4] = {{276099, 138350277, 1520717, 4191}};
-    float features_two[1][4] = {{28372, 138350277, 1538823, 5637}};
-	float result_one = PredictXGBoostRegressor(myRegressor, features_one);
-    float result_two = PredictXGBoostRegressor(myRegressor, features_two);
+    float features_two[1][4] = {{28372, 138350277, 16038938, 5637}};
+	float result_one = PredictXGBoostRegressor(myRegressor,  4, features_one);
+    float result_two = PredictXGBoostRegressor(myRegressor, 4, features_two);
+    float features_one[1][4] = {{276099, 138350277, 1520717, 4191}};
+    float features_two[1][4] = {{28372, 138350277, 16038938, 5637}};
+    float result_one = LoadExistingModelandPredict("XGBoost/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation_package/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation.model",  4, features_one);
+    float result_two = LoadExistingModelandPredict("XGBoost/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation_package/XGBoostRegressionStandalonePipeline_Node_Level_KFoldCrossValidation.model", 4, features_two);
 	printf("Prediction One: %f, Prediction Two: %f", result_one, result_two);
 	FreeXGBoostRegressor(myRegressor);	
 	return 0;
-}
+}*/
 
 

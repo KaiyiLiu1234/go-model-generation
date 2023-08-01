@@ -18,7 +18,10 @@ import (
 // Note the full kepler metric cannot be used here to maintain consistency (follow model server)
 var irqRelatedMetrics = []string{"bpf_block_irq", "bpf_cpu_time_us", "bpf_net_rx_irq", "bpf_net_tx_irq"}
 var irqPowerLabel = []string{"total_package_power"}
-var coreMetrics = []string{"core_cpu_cycles", "core_cpu_instr", "core_cpu_time", "core_cpu_architecture"}
+
+// var coreMetrics = []string{"core_cpu_cycles", "core_cpu_instr", "core_cpu_time", "core_cpu_architecture"}
+var coreMetrics = []string{"serving_default_core_cpu_time:0", "serving_default_core_cpu_instr:0", "serving_default_core_cpu_cycles:0", "serving_default_core_cpu_architecture:0"}
+var coreLabel = []string{"StatefulPartitionedCall_2:0"}
 
 type DataLocation int64
 
@@ -37,7 +40,8 @@ const (
 type ModelLabelType string
 
 const (
-	totalPackagePower         ModelLabelType = "totalPackagePower"
+	totalPackagePower ModelLabelType = "totalPackagePower"
+	//coreRegressionLayerEnergy ModelLabelType = "coreRegressionLayerEnergy"
 	coreRegressionLayerEnergy ModelLabelType = "coreRegressionLayerEnergy"
 )
 
@@ -49,11 +53,13 @@ func sort_model_names(features []string) []string {
 }
 
 var Model_Feature_Groups = map[ModelFeatureType][]string{
-	irqFeatures: sort_model_names(irqRelatedMetrics),
+	irqFeatures:  sort_model_names(irqRelatedMetrics),
+	coreFeatures: sort_model_names(coreMetrics),
 }
 
 var Model_Label_Groups = map[ModelLabelType][]string{
-	totalPackagePower: sort_model_names(irqPowerLabel),
+	totalPackagePower:         sort_model_names(irqPowerLabel),
+	coreRegressionLayerEnergy: sort_model_names(coreLabel),
 }
 
 // assume the last column is the label
